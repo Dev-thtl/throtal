@@ -107,6 +107,7 @@ public class CustomerServiceImplementation implements CustomerService {
             return new ResponseEntity<>(userRegistrationResponse, HttpStatus.OK);
 
         }catch (Exception e){
+            
             System.out.println(e);
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
