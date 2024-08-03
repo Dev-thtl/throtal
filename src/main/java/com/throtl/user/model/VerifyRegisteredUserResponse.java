@@ -6,7 +6,7 @@ public class VerifyRegisteredUserResponse {
 
     private String firstName= CoreConstant.EMPTY;
     private String lastName=CoreConstant.EMPTY;
-    private Boolean isRegisteredUser;
+//    private Boolean isRegisteredUser;
     private Long userOid;
 
     private SendOtpDetails sendOtpDetails;
@@ -28,13 +28,13 @@ public class VerifyRegisteredUserResponse {
         this.lastName = lastName;
     }
 
-    public Boolean getRegisteredUser() {
-        return isRegisteredUser;
-    }
-
-    public void setRegisteredUser(Boolean registeredUser) {
-        isRegisteredUser = registeredUser;
-    }
+//    public Boolean getRegisteredUser() {
+//        return isRegisteredUser;
+//    }
+//
+//    public void setRegisteredUser(Boolean registeredUser) {
+//        isRegisteredUser = registeredUser;
+//    }
 
     public Long getUserOid() {
         return userOid;

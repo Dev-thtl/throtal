@@ -1,5 +1,7 @@
 package com.throtl.user.util;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -24,4 +26,12 @@ public class CommonUtil {
         }
         return json;
     }
+
+
+//    public static ResponseEntity<Object> setEncryptedResponse(JSONObject json) throws JSONException {
+//        JSONObject response = new JSONObject();
+//        json.put("timestamp", System.currentTimeMillis());
+//        response.put(CoreConstants.DATA, CansCrypt.encrypt(json.toString()));
+//        return new ResponseEntity<>(response.toString(), HttpStatus.OK);
+//    }
 }

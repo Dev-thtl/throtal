@@ -25,7 +25,7 @@ public class CustomerController {
 
     @PostMapping(value = "userValidation", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> validateRegisteredPhoneNumber(@RequestBody @Validated VerifyRegisteredUserRequest verifyRegisteredUserRequest,
-                                                                @RequestHeader(name = "", required = false) String deviceId,
+                                                                @RequestHeader(name = "DEVICE_ID", required = false) String deviceId,
                                                                 BindingResult result){
 
     try {

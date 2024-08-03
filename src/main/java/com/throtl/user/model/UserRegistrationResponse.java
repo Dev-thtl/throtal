@@ -2,18 +2,18 @@ package com.throtl.user.model;
 
 public class UserRegistrationResponse {
 
-    private boolean isRegistredUser;
+//    private boolean isRegistredUser;
     private String userRegistration;
     private String msg;
 
 
-    public boolean isRegistredUser() {
-        return isRegistredUser;
-    }
-
-    public void setRegistredUser(boolean registredUser) {
-        isRegistredUser = registredUser;
-    }
+//    public boolean isRegistredUser() {
+//        return isRegistredUser;
+//    }
+//
+//    public void setRegistredUser(boolean registredUser) {
+//        isRegistredUser = registredUser;
+//    }
 
     public String getUserRegistration() {
         return userRegistration;

@@ -10,8 +10,16 @@ public class VerifyRegisteredUserRequest {
     private Boolean isMember;
     private Long userOid;
 
+    private String countryCode;
 
 
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
     public String getMobileNumber() {
         return mobileNumber;

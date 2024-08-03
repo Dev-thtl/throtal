@@ -23,7 +23,7 @@ public class UserServiceImplementation implements UserService {
                 UserProfile user = userProfileRepository.getUserProfileByPhoneNumber(auth.getName());
                 if (null != user) {
                     /* return user.getOid(); */
-                    return user.getOid();
+                    return user.getUserId();
                 } else {
                     return null;
                 }

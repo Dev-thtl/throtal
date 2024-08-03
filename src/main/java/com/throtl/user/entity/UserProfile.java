@@ -16,7 +16,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OID", unique = true, nullable = false)
-    private Long oid;
+    private Long userId;
 
     @CreationTimestamp
     @Column(name = "CREATION_TIME", updatable = false)
@@ -55,12 +55,12 @@ public class UserProfile {
     @Column(name = "MOBILE_NUMBER")
     private String mobileNumber;
 
-    public Long getOid() {
-        return oid;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setOid(Long oid) {
-        this.oid = oid;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Date getCreatedTime() {
