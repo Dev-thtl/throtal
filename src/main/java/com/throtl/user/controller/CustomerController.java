@@ -1,6 +1,7 @@
 package com.throtl.user.controller;
 
 import com.throtl.user.model.OtpVerificationRequest;
+import com.throtl.user.model.UserRSADetailsRequest;
 import com.throtl.user.model.UserRegistrationRequest;
 import com.throtl.user.model.VerifyRegisteredUserRequest;
 import com.throtl.user.service.CustomerService;
@@ -90,5 +91,28 @@ public class CustomerController {
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @PostMapping(value = "rsaUserDetails", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSAUserDEtails(@RequestBody @Validated UserRSADetailsRequest userRSADetailsRequest,
+                                                     @RequestHeader(name = "", required = false) String deviceId,
+                                                     BindingResult result){
+
+
+        try{
+
+            return customerService.getUserRSADetails(userRSADetailsRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }
