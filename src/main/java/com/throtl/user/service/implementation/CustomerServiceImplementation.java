@@ -14,6 +14,7 @@ import com.throtl.user.security.jwt.JwtUtils;
 import com.throtl.user.security.services.UserDetailsImpl;
 import com.throtl.user.service.CustomerService;
 import com.throtl.user.util.CommonUtil;
+import com.throtl.user.util.RestUtil;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,5 +221,15 @@ public class CustomerServiceImplementation implements CustomerService {
             System.out.println(e);
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Object> getUserRSADetails(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
+
+        String str = RestUtil.rsaClientCall();
+
+
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 }
