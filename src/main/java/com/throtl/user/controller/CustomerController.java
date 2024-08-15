@@ -1,5 +1,6 @@
 package com.throtl.user.controller;
 
+import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.user.model.OtpVerificationRequest;
 import com.throtl.user.model.UserRSADetailsRequest;
 import com.throtl.user.model.UserRegistrationRequest;
@@ -113,6 +114,115 @@ public class CustomerController {
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @PostMapping(value = "rsaStateList", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSAStateList(@RequestBody @Validated UserRSADetailsRequest userRSADetailsRequest,
+                                                     @RequestHeader(name = "", required = false) String deviceId,
+                                                     BindingResult result){
+
+
+        try{
+
+            return customerService.getRsaStateList(userRSADetailsRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping(value = "rsaMembershipList", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSAMembershipList(@RequestBody @Validated UserRSADetailsRequest userRSADetailsRequest,
+                                                   @RequestHeader(name = "", required = false) String deviceId,
+                                                   BindingResult result){
+
+
+        try{
+
+            return customerService.getRsaMembershipList(userRSADetailsRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+ @PostMapping(value = "rsaBrandList", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSABrandList(@RequestBody @Validated UserRSADetailsRequest userRSADetailsRequest,
+                                                   @RequestHeader(name = "", required = false) String deviceId,
+                                                   BindingResult result){
+
+
+        try{
+
+            return customerService.getRsaBrandList(userRSADetailsRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    @PostMapping(value = "rsaModelList", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSAModelList(@RequestBody @Validated UserRSADetailsRequest userRSADetailsRequest,
+                                                   @RequestHeader(name = "", required = false) String deviceId,
+                                                   BindingResult result){
+
+
+        try{
+
+            return customerService.getRsaModelList(userRSADetailsRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    @PostMapping(value = "rsaPurchaseData", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> userRSAModelList(@RequestBody RSAPurchasedDataRequest rsaPurchasedDataRequest,
+                                                   @RequestHeader(name = "", required = false) String deviceId,
+                                                   BindingResult result){
+
+
+        try{
+
+            return customerService.rsaPurchase(rsaPurchasedDataRequest,true);
+
+
+
+
+        }catch (Exception e){
+
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 
 }

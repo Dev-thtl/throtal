@@ -1,5 +1,6 @@
 package com.throtl.user.service.implementation;
 
+import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.otp.OTPUtil;
 import com.throtl.user.entity.RefreshToken;
 import com.throtl.user.entity.UserProfile;
@@ -226,9 +227,97 @@ public class CustomerServiceImplementation implements CustomerService {
     @Override
     public ResponseEntity<Object> getUserRSADetails(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
 
-        String str = RestUtil.rsaClientCall();
+        try {
 
 
+            JSONObject str = RestUtil.rsaClientCall("get-user-details");
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getRsaStateList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
+        try {
+
+
+            JSONObject str = RestUtil.rsaClientCall("get-master-state-list");
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getRsaMembershipList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
+        try {
+
+
+            JSONObject str = RestUtil.rsaClientCall("get-master-rsa-membership-list");
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getRsaBrandList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
+        try {
+
+
+            JSONObject str = RestUtil.rsaClientCall("get-master-brand-list");
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getRsaModelList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted) {
+        try {
+
+
+            JSONObject str = RestUtil.rsaClientCall("get-master-model-list");
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> rsaPurchase(RSAPurchasedDataRequest rsaPurchasedDataRequest, Boolean isEncrypted) {
+
+        try {
+
+
+            JSONObject str = RestUtil.rsaPurchasedClientCall("user-membership-purchase", rsaPurchasedDataRequest);
+
+            return new ResponseEntity<>(str.toString(), HttpStatus.OK);
+        }catch (Exception e){
+
+
+        }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }

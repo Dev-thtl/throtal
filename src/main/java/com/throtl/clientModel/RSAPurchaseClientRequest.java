@@ -1,10 +1,9 @@
 package com.throtl.clientModel;
 
-public class RSAClientRequest {
+public class RSAPurchaseClientRequest {
 
     private String api;
-    private UserRsaDetails request_data;
-
+    private RSAPurchasedDataRequest request_data;
 
     public String getApi() {
         return api;
@@ -14,11 +13,11 @@ public class RSAClientRequest {
         this.api = api;
     }
 
-    public UserRsaDetails getRequest_data() {
+    public RSAPurchasedDataRequest getRequest_data() {
         return request_data;
     }
 
-    public void setRequest_data(UserRsaDetails request_data) {
+    public void setRequest_data(RSAPurchasedDataRequest request_data) {
         this.request_data = request_data;
     }
 }
