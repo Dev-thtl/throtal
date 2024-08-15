@@ -5,6 +5,8 @@ public class UserRSADetailsRequest {
     private String userId;
     private String mobileNumber;
 
+    private String brandId;
+
     public String getUserId() {
         return userId;
     }
@@ -19,5 +21,13 @@ public class UserRSADetailsRequest {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+
+    public String getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 }
