@@ -4,7 +4,7 @@ package com.throtl.user.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_token_details")
+@Table(name = "[user_token_details]")
 public class UserTokenDetails {
 
 

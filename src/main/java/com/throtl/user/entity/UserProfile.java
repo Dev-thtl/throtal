@@ -10,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "user_profile")
+@Table(name = "[user_profile]", schema = "dbo")
 public class UserProfile {
 
     @Id
