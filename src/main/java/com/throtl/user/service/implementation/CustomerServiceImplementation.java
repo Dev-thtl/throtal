@@ -131,13 +131,16 @@ public class CustomerServiceImplementation implements CustomerService {
                if(user.isPresent()) {
 //                   user.setUsername(mobileNo);
                    user.get().setPassword(encodedPassword);
+                   userRepository.save(user.get());
                }else{
-                   user.get().setUsername(mobileNo);
-                   user.get().setPassword(encodedPassword);
+                   User user1 = new User();
+                   user1.setUsername(mobileNo);
+                   user1.setPassword(encodedPassword);
+                   userRepository.save(user1);
 
                }
 
-               userRepository.save(user.get());
+//               userRepository.save(user.get());
 
                Authentication authentication = authenticationManager.authenticate(
                        new UsernamePasswordAuthenticationToken(mobileNo, otpVerificationRequest.getOtp()));
