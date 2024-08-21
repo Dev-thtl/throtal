@@ -17,7 +17,7 @@ import java.util.Map;
 public class RestUtil {
 
 
-public static JSONObject rsaClientCall(String api) {
+public static JSONObject rsaClientCall(String api, String data) {
 
     Gson gson = new Gson();
     RSAClientRequest rsaClientRequest = new RSAClientRequest();
@@ -25,13 +25,13 @@ public static JSONObject rsaClientCall(String api) {
     rsaClientRequest.setApi(api);
     if(api.equalsIgnoreCase("get-user-details")) {
         UserRsaDetails userRsaDetails = new UserRsaDetails();
-        userRsaDetails.setMobile_no("8898141483");
+        userRsaDetails.setMobile_no(data);
         rsaClientRequest.setRequest_data(userRsaDetails);
     }
 
     if(api.equalsIgnoreCase("get-master-model-list")) {
         UserRsaDetails userRsaDetails = new UserRsaDetails();
-        userRsaDetails.setBrand_id(79);
+        userRsaDetails.setBrand_id(Integer.valueOf(data));
         rsaClientRequest.setRequest_data(userRsaDetails);
     }
     String requestBody = gson.toJson(rsaClientRequest).toString();

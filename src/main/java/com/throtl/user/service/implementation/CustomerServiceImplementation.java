@@ -233,7 +233,7 @@ public class CustomerServiceImplementation implements CustomerService {
         try {
 
 
-            JSONObject str = RestUtil.rsaClientCall("get-user-details");
+            JSONObject str = RestUtil.rsaClientCall("get-user-details", userRegistrationRequest.getMobileNumber());
 
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         }catch (Exception e){
@@ -249,7 +249,7 @@ public class CustomerServiceImplementation implements CustomerService {
         try {
 
 
-            JSONObject str = RestUtil.rsaClientCall("get-master-state-list");
+            JSONObject str = RestUtil.rsaClientCall("get-master-state-list", userRegistrationRequest.getMobileNumber());
 
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         }catch (Exception e){
@@ -265,7 +265,7 @@ public class CustomerServiceImplementation implements CustomerService {
         try {
 
 
-            JSONObject str = RestUtil.rsaClientCall("get-master-rsa-membership-list");
+            JSONObject str = RestUtil.rsaClientCall("get-master-rsa-membership-list", userRegistrationRequest.getMobileNumber());
 
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         }catch (Exception e){
@@ -281,7 +281,7 @@ public class CustomerServiceImplementation implements CustomerService {
         try {
 
 
-            JSONObject str = RestUtil.rsaClientCall("get-master-brand-list");
+            JSONObject str = RestUtil.rsaClientCall("get-master-brand-list", userRegistrationRequest.getMobileNumber());
 
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         }catch (Exception e){
@@ -297,7 +297,7 @@ public class CustomerServiceImplementation implements CustomerService {
         try {
 
 
-            JSONObject str = RestUtil.rsaClientCall("get-master-model-list");
+            JSONObject str = RestUtil.rsaClientCall("get-master-model-list", userRegistrationRequest.getBrandId());
 
             return new ResponseEntity<>(str.toString(), HttpStatus.OK);
         }catch (Exception e){
