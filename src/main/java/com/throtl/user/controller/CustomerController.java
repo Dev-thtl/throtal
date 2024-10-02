@@ -1,12 +1,10 @@
 package com.throtl.user.controller;
 
 import com.throtl.clientModel.RSAPurchasedDataRequest;
-import com.throtl.user.model.OtpVerificationRequest;
-import com.throtl.user.model.UserRSADetailsRequest;
-import com.throtl.user.model.UserRegistrationRequest;
-import com.throtl.user.model.VerifyRegisteredUserRequest;
+import com.throtl.user.model.*;
 import com.throtl.user.service.CustomerService;
 import com.throtl.user.util.CommonUtil;
+import com.throtl.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +23,9 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    Validator validator;
+
     @PostMapping(value = "userValidation", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> validateRegisteredPhoneNumber(@RequestBody @Validated VerifyRegisteredUserRequest verifyRegisteredUserRequest,
                                                                 @RequestHeader(name = "DEVICE_ID", required = false) String deviceId,
@@ -33,7 +34,7 @@ public class CustomerController {
     try {
 //        logger.info("Request body for /api/th/customer/validateRegisteredPhoneNumber" + "---"
 //                + mapper.writeValueAsString(unregNumber));
-//        customerValidator.validNumberV1(unregNumber,result );
+        validator.validRegisteredPhoneNumber(verifyRegisteredUserRequest,result );
 //        if(result.hasErrors())
 //        {
 //            return new ResponseEntity<>(new ErrorResponse(ErrorType.VALIDATION, result), HttpStatus.BAD_REQUEST);
@@ -222,7 +223,41 @@ public class CustomerController {
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @PostMapping(value = "saveTransactionDetails", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> saveTransactionDetails(@RequestBody @Validated TransactionData transactionData,
+                                                         @RequestHeader(name = "", required = false) String deviceId,
+                                                         BindingResult result){
+        try{
+            return customerService.saveTransactionData(transactionData,true);
+        }catch (Exception e){
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
+    @PostMapping(value = "getUserTransactionDetails", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> getUserTransactionDetails(@RequestBody @Validated GetUserTransactionDetailsRequest getUserTransactionDetailsRequest,
+                                                            @RequestHeader(name = "", required = false) String deviceId,
+                                                            BindingResult result){
+        try{
+            return customerService.getUserTransactionDetails(getUserTransactionDetailsRequest,true);
+        }catch (Exception e){
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping(value = "getUserProfile", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> getUserProfile(@RequestBody @Validated ProfileDetailsRequest profileDetailsRequest,
+                                                 @RequestHeader(name = "", required = false) String deviceId,
+                                                 BindingResult result){
+        try{
+            return customerService.getUserProfileDetails(profileDetailsRequest,true);
+        }catch (Exception e){
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

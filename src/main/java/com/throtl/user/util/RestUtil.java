@@ -2,6 +2,7 @@ package com.throtl.user.util;
 
 import com.google.gson.Gson;
 import com.throtl.clientModel.*;
+import com.throtl.user.model.EmailRequest;
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -122,6 +123,38 @@ public static JSONObject rsaClientCall(String api, String data) {
 //    httpEntity = new HttpEntity<>(gson.toJson(map1).toString(), headers);
 //    restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(conceptTimeout)).build();
 //    response = restTemplate.postForEntity(memberConceptUrl + "/Searchv2", httpEntity, Object.class);
+
+    }
+
+    public static String sendEmail( EmailRequest emailRequest) {
+
+        Gson gson = new Gson();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accept", "application/json'");
+        headers.set("api-key", "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");
+        headers.set("Content-Type", "application/json");
+
+
+        String requestBody = gson.toJson(emailRequest).toString();
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<?> httpEntity = null;
+        httpEntity = new HttpEntity<>(gson.toJson(emailRequest).toString());
+        RestTemplate restTemplate = null;
+        ResponseEntity<?> response = null;
+        restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(1000)).build();
+        response = restTemplate.postForEntity("https://api.brevo.com/v3/smtp/email", entity, Object.class);
+
+        JSONObject jsonObject = null;
+        Map<String, String> map11 = new LinkedHashMap<>();
+//    conceptStatus = new ConceptStatusBean();
+        if (response != null && response.getStatusCode().value() == 200) {
+            map11 = (Map<String, String>) response.getBody();
+            jsonObject = new JSONObject(map11);
+
+        }
+
+        return null;
 
     }
 }
