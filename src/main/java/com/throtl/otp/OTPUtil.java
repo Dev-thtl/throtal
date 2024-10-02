@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class OTPUtil {
 
-    public static SendOtpDetails sendOtp(SendOtpDetails sendOtpDetails) {
+    public static SendOtpDetails sendOtp(String otpMobileNumber, SendOtpDetails sendOtpDetails) {
     try
     {
 
@@ -21,7 +21,7 @@ public class OTPUtil {
         String clientSecret = "5ul3arbte5kdjbq4gzs8q7q8boe6ze2e";
         OTPAuth otpAuth = new OTPAuth(clientId, clientSecret);
         int orderId = new Random().nextInt(900000) + 100000;
-        OTPResponse otpResponse = otpAuth.sendOTP(String.valueOf(orderId), sendOtpDetails.getMobileNumber(), "neeraj.wibmo1062@gmail.com",
+        OTPResponse otpResponse = otpAuth.sendOTP(String.valueOf(orderId), otpMobileNumber, "neeraj.wibmo1062@gmail.com",
                 "ABC1234", 60, 4, "SMS,EMAIL");
 
         if (otpResponse.isSuccess()) {
@@ -51,8 +51,9 @@ public static OtpVerifyResponse verifyOtp(OtpVerificationRequest otpVerification
             String clientId = "V60X1QKDGQHYEEGNET2L223EDBGLDQFK";
             String clientSecret = "5ul3arbte5kdjbq4gzs8q7q8boe6ze2e";
             OTPAuth otpAuth = new OTPAuth(clientId, clientSecret);
+            String mobileNumber = "91"+otpVerificationRequest.getMobileNumber();
             OTPVerificationResponse otpVerificationResponse = otpAuth.verifyOTP(otpVerificationRequest.getOrderId(), otpVerificationRequest.getOtp(),
-                    otpVerificationRequest.getMobileNumber(), "neeraj.wibmo1062@gmail.com");
+                    mobileNumber, "neeraj.wibmo1062@gmail.com");
 
 
 //    if(otpVerificationResponse.getIsOTPVerified()){
