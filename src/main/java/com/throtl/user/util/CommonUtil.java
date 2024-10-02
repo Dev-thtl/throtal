@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
+
 @Component
 public class CommonUtil {
 
@@ -34,4 +36,18 @@ public class CommonUtil {
 //        response.put(CoreConstants.DATA, CansCrypt.encrypt(json.toString()));
 //        return new ResponseEntity<>(response.toString(), HttpStatus.OK);
 //    }
+
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final Random RANDOM = new Random();
+
+    // Method to generate a random alphanumeric string
+    public static String generateRandomString(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = RANDOM.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+        return sb.toString();
+    }
 }

@@ -2,12 +2,14 @@ package com.throtl.user.service.implementation;
 
 import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.otp.OTPUtil;
+import com.throtl.user.entity.MembershipPurchaseTxnData;
 import com.throtl.user.entity.RefreshToken;
 import com.throtl.user.entity.UserProfile;
 import com.throtl.user.entity.UserTokenDetails;
 import com.throtl.user.model.*;
 import com.throtl.user.models.User;
 import com.throtl.user.payload.response.JwtResponse;
+import com.throtl.user.repository.MembershipPurchaseTxnDataRepository;
 import com.throtl.user.repository.UserProfileRepository;
 import com.throtl.user.repository.UserRepository;
 import com.throtl.user.repository.UserTokenDetailsRepository;
@@ -15,6 +17,7 @@ import com.throtl.user.security.jwt.JwtUtils;
 import com.throtl.user.security.services.UserDetailsImpl;
 import com.throtl.user.service.CustomerService;
 import com.throtl.user.util.CommonUtil;
+import com.throtl.user.util.ResponseUtil;
 import com.throtl.user.util.RestUtil;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
@@ -29,7 +32,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service(value ="customerService")
@@ -54,6 +62,9 @@ public class CustomerServiceImplementation implements CustomerService {
 
     @Autowired
     UserTokenDetailsRepository userTokenDetailsRepository;
+
+    @Autowired
+    MembershipPurchaseTxnDataRepository membershipPurchaseTxnDataRepository;
 
     @Override
     public ResponseEntity<Object> validateRegisterPhoneNumberV1(VerifyRegisteredUserRequest verifyRegisteredUserRequest, Boolean isEncrypted) {
@@ -322,6 +333,162 @@ public class CustomerServiceImplementation implements CustomerService {
 
         }
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<Object> saveTransactionData(TransactionData transactionData, Boolean isEncrypted) {
+
+        ResponseUtil responseUtil = new ResponseUtil();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+
+            // Get the current date
+            LocalDate currentDate = LocalDate.now();
+
+            // Format the current date
+            String formattedDate = currentDate.format(formatter);
+
+            String transactionId = "RSAMP" + transactionData.getUser_id() + formattedDate + commonUtil.generateRandomString(6);
+
+            MembershipPurchaseTxnData membershipPurchaseTxnData = new MembershipPurchaseTxnData();
+
+            membershipPurchaseTxnData.setTransactionId(transactionId);
+            membershipPurchaseTxnData.setTransactionStatus("0");
+            membershipPurchaseTxnData.setMobileNumber(transactionData.getMobile_number());
+            membershipPurchaseTxnData.setMembershipName(transactionData.getMembership_name());
+            membershipPurchaseTxnData.setMembershipId(transactionData.getMembership_id());
+            membershipPurchaseTxnData.setMembershipAmount(transactionData.getMembership_amount());
+            membershipPurchaseTxnData.setMembershipDuration(transactionData.getMembership_duration());
+            membershipPurchaseTxnData.setUserId(transactionData.getUser_id());
+            membershipPurchaseTxnData.setOrderId(transactionData.getOrder_id());
+            membershipPurchaseTxnData.setPaymentGatewayKey(transactionData.getPayment_gateway_key());
+            membershipPurchaseTxnData.setTransactionStatusDesc("Transaction Review Pending with RSA");
+            membershipPurchaseTxnData.setStateId(transactionData.getState_id());
+            membershipPurchaseTxnData.setCityName(transactionData.getCity_name());
+            membershipPurchaseTxnData.setVehicleBrand(transactionData.getVehicle_brand());
+            membershipPurchaseTxnData.setVehicleModel(transactionData.getVehicle_model());
+            membershipPurchaseTxnData.setVehicleNo(transactionData.getVehicle_no());
+
+
+            MembershipPurchaseTxnData saveMembershipPurchaseTxnData =  membershipPurchaseTxnDataRepository.save(membershipPurchaseTxnData);
+
+            responseUtil.setCode(200);
+            responseUtil.setMsg("Date saved Successfully");
+            if(saveMembershipPurchaseTxnData.getOid() != null){
+                Runnable runnable = () -> {
+
+                    OTPUtil.sendTransactionDataEmail(transactionId, transactionData);
+
+
+                };
+
+                Thread thread = new Thread(runnable);
+                thread.start();
+
+
+
+            }
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+            responseUtil.setCode(500);
+            responseUtil.setMsg("Failure");
+
+        }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Object> getUserTransactionDetails(GetUserTransactionDetailsRequest getUserTransactionDetailsRequest, Boolean isEncrypted) {
+
+        ResponseUtil responseUtil = new ResponseUtil();
+        try {
+
+            GetUserTransactionDetailsResponse getUserTransactionDetailsResponse;
+
+            List<MembershipPurchaseTxnData> membershipPurchaseTxnDataList = membershipPurchaseTxnDataRepository
+                    .getByMobileNumberAndUserId(getUserTransactionDetailsRequest.getMobile_number(),
+                            getUserTransactionDetailsRequest.getUser_id());
+
+
+            List<GetUserTransactionDetailsResponse> getUserTransactionDetailsResponsesList = new ArrayList<>();
+
+            for(MembershipPurchaseTxnData membershipPurchaseTxnData : membershipPurchaseTxnDataList) {
+                getUserTransactionDetailsResponse = new GetUserTransactionDetailsResponse();
+                getUserTransactionDetailsResponse.setUser_id(membershipPurchaseTxnData.getUserId());
+                getUserTransactionDetailsResponse.setMobile_number(membershipPurchaseTxnData.getMobileNumber());
+                getUserTransactionDetailsResponse.setOrder_id(membershipPurchaseTxnData.getOrderId());
+                getUserTransactionDetailsResponse.setPayment_gateway_key(membershipPurchaseTxnData.getPaymentGatewayKey());
+                getUserTransactionDetailsResponse.setState_id(membershipPurchaseTxnData.getStateId());
+                getUserTransactionDetailsResponse.setCity_name(membershipPurchaseTxnData.getCityName());
+                getUserTransactionDetailsResponse.setVehicle_brand(membershipPurchaseTxnData.getVehicleBrand());
+                getUserTransactionDetailsResponse.setVehicle_model(membershipPurchaseTxnData.getVehicleModel());
+                getUserTransactionDetailsResponse.setVehicle_no(membershipPurchaseTxnData.getVehicleNo());
+                getUserTransactionDetailsResponse.setMembership_id(membershipPurchaseTxnData.getMembershipId());
+                getUserTransactionDetailsResponse.setMembership_amount(membershipPurchaseTxnData.getMembershipAmount());
+                getUserTransactionDetailsResponse.setMembership_duration(membershipPurchaseTxnData.getMembershipDuration());
+                getUserTransactionDetailsResponse.setMembership_name(membershipPurchaseTxnData.getMembershipName());
+                getUserTransactionDetailsResponse.setTransaction_status(membershipPurchaseTxnData.getTransactionStatus());
+                getUserTransactionDetailsResponse.setTransaction_desc(membershipPurchaseTxnData.getTransactionStatusDesc());
+
+                getUserTransactionDetailsResponsesList.add(getUserTransactionDetailsResponse);
+            }
+
+            responseUtil.setCode(200);
+            responseUtil.setMsg("Success");
+            responseUtil.setDate(getUserTransactionDetailsResponsesList);
+
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+
+            responseUtil.setCode(500);
+            responseUtil.setMsg("Failure");
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+    }
+
+    @Override
+    public ResponseEntity<Object> getUserProfileDetails(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted) {
+        ResponseUtil responseUtil = new ResponseUtil();
+        try{
+
+            UserProfile userProfile=userProfileRepository.getUserProfileByPhoneNumber(profileDetailsRequest.getMobile_number());
+
+            ProfileDetailsResponse profileDetailsResponse = new ProfileDetailsResponse();
+
+            profileDetailsResponse.setUser_id(String.valueOf(userProfile.getUserId()));
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            profileDetailsResponse.setCreated_time(outputFormat.format(userProfile.getCreatedTime()));
+
+            profileDetailsResponse.setUpdate_time(outputFormat.format(userProfile.getUpdateTime()));
+            profileDetailsResponse.setRsa_id(userProfile.getRsaId());
+            profileDetailsResponse.setTitle(userProfile.getTitle() != null ?userProfile.getTitle().name(): "");
+            profileDetailsResponse.setFirst_name(userProfile.getFirstName());
+            profileDetailsResponse.setMiddle_name(userProfile.getMiddleName());
+            profileDetailsResponse.setLast_name(userProfile.getLastName());
+            profileDetailsResponse.setEmail_id(userProfile.getEmailId());
+            profileDetailsResponse.setCountry_code(userProfile.getCountryCode());
+            profileDetailsResponse.setMobile_number(userProfile.getMobileNumber());
+
+            responseUtil.setCode(200);
+            responseUtil.setMsg("Success");
+            responseUtil.setDate(profileDetailsResponse);
+
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+            responseUtil.setCode(500);
+            responseUtil.setMsg("Failure");
+            responseUtil.setDate(null);
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+
 
     }
 }

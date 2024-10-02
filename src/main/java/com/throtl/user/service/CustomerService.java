@@ -1,10 +1,7 @@
 package com.throtl.user.service;
 
 import com.throtl.clientModel.RSAPurchasedDataRequest;
-import com.throtl.user.model.OtpVerificationRequest;
-import com.throtl.user.model.UserRSADetailsRequest;
-import com.throtl.user.model.UserRegistrationRequest;
-import com.throtl.user.model.VerifyRegisteredUserRequest;
+import com.throtl.user.model.*;
 import org.springframework.http.ResponseEntity;
 
 public interface CustomerService {
@@ -23,5 +20,8 @@ public interface CustomerService {
 ResponseEntity<Object> getRsaBrandList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted);
 ResponseEntity<Object> getRsaModelList(UserRSADetailsRequest userRegistrationRequest, Boolean isEncrypted);
 ResponseEntity<Object> rsaPurchase(RSAPurchasedDataRequest rsaPurchasedDataRequest, Boolean isEncrypted);
+ResponseEntity<Object> saveTransactionData(TransactionData transactionData, Boolean isEncrypted);
+ResponseEntity<Object> getUserTransactionDetails(GetUserTransactionDetailsRequest getUserTransactionDetailsRequest, Boolean isEncrypted);
+ResponseEntity<Object> getUserProfileDetails(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted);
 
 }
