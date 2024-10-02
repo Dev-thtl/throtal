@@ -86,8 +86,9 @@ public class CustomerServiceImplementation implements CustomerService {
 //                verifyRegisteredUserResponse.setRegisteredUser(false);
             }
             SendOtpDetails sendOtpDetails = new SendOtpDetails();
-            sendOtpDetails.setMobileNumber(verifyRegisteredUserRequest.getCountryCode()+ verifyRegisteredUserRequest.getMobileNumber());
-            sendOtpDetails =  OTPUtil.sendOtp(sendOtpDetails);
+            sendOtpDetails.setMobileNumber(verifyRegisteredUserRequest.getMobileNumber());
+            String otpMobileNumber = verifyRegisteredUserRequest.getCountryCode()+ verifyRegisteredUserRequest.getMobileNumber();
+            sendOtpDetails =  OTPUtil.sendOtp(otpMobileNumber, sendOtpDetails);
 //            logger.info("Number----"+unregNumber.getPhoneNumber());
 //            applogger.info("Response body for /V3/validate/phoneNumber" + "---"
 //                    + mapper.writeValueAsString(unregNumber));
