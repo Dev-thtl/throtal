@@ -492,4 +492,23 @@ public class CustomerServiceImplementation implements CustomerService {
 
 
     }
+
+    @Override
+    public ResponseEntity<Object> deleteUserProfile(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted) {
+
+        ResponseUtil responseUtil = new ResponseUtil();
+        try {
+            userProfileRepository.deleteUserProfile(profileDetailsRequest.getMobile_number());
+            responseUtil.setCode(200);
+            responseUtil.setMsg("Success");
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+        responseUtil.setCode(500);
+        responseUtil.setMsg("Failure");
+        responseUtil.setDate(null);
+        System.out.println(e);
+    }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

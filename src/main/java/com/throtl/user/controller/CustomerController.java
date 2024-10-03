@@ -260,4 +260,16 @@ public class CustomerController {
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PostMapping(value = "deleteUserProfile", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> deleteUserProfile(@RequestBody @Validated ProfileDetailsRequest profileDetailsRequest,
+                                                 @RequestHeader(name = "", required = false) String deviceId,
+                                                 BindingResult result){
+        try{
+            return customerService.deleteUserProfile(profileDetailsRequest,true);
+        }catch (Exception e){
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

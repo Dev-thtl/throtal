@@ -23,5 +23,6 @@ ResponseEntity<Object> rsaPurchase(RSAPurchasedDataRequest rsaPurchasedDataReque
 ResponseEntity<Object> saveTransactionData(TransactionData transactionData, Boolean isEncrypted);
 ResponseEntity<Object> getUserTransactionDetails(GetUserTransactionDetailsRequest getUserTransactionDetailsRequest, Boolean isEncrypted);
 ResponseEntity<Object> getUserProfileDetails(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted);
+ResponseEntity<Object> deleteUserProfile(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted);
 
 }
