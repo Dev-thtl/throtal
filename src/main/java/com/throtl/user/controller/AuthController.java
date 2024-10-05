@@ -1,5 +1,6 @@
 package com.throtl.user.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.throtl.user.entity.RefreshToken;
 import com.throtl.user.entity.UserProfile;
 import com.throtl.user.entity.UserTokenDetails;
@@ -31,11 +32,16 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+  private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+  ObjectMapper objectMapper = new ObjectMapper();
   @Autowired
   AuthenticationManager authenticationManager;
 
@@ -65,10 +71,13 @@ public class AuthController {
                                                        HttpServletRequest request) {
 
 
+try{
+    logger.info("Verify USer Details : {}", objectMapper.writeValueAsString(loginRequest));
     if(tokenType.equalsIgnoreCase("credential")){
 
       Authentication authentication = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+      logger.info("Verify USer Details : {}", loginRequest.getUsername());
 
       SecurityContextHolder.getContext().setAuthentication(authentication);
       String jwt = jwtUtils.generateJwtToken(authentication);
@@ -142,6 +151,9 @@ public class AuthController {
               .refreshTokenExpiry(refreshToken.getExpiryDate())
               .userProfile(userProfile)
               .build());
+
+    }
+    }catch (Exception e){
 
     }
 

@@ -2,8 +2,11 @@ package com.throtl.user.util;
 
 import com.google.gson.Gson;
 import com.throtl.clientModel.*;
+import com.throtl.user.controller.AuthController;
 import com.throtl.user.model.EmailRequest;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 public class RestUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(RestUtil.class);
 
 public static JSONObject rsaClientCall(String api, String data) {
 

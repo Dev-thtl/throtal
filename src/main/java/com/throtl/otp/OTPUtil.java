@@ -6,6 +6,8 @@ import com.otpless.authsdk.OTPResponse;
 import com.otpless.authsdk.OTPVerificationResponse;
 import com.throtl.user.model.*;
 import com.throtl.user.util.RestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Random;
 
 public class OTPUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(OTPUtil.class);
+    static ObjectMapper objectMapper = new ObjectMapper();
     public static SendOtpDetails sendOtp(String otpMobileNumber, SendOtpDetails sendOtpDetails) {
     try
     {
@@ -24,6 +28,7 @@ public class OTPUtil {
         OTPResponse otpResponse = otpAuth.sendOTP(String.valueOf(orderId), otpMobileNumber, "neeraj.wibmo1062@gmail.com",
                 "ABC1234", 60, 4, "SMS,EMAIL");
 
+        logger.info("Send OTP Response : {}", objectMapper.writeValueAsString(otpResponse));
         if (otpResponse.isSuccess()) {
             System.out.println("OTP sent. orderId=> " + otpResponse.getOrderId());
             sendOtpDetails.setOrderId(otpResponse.getOrderId());
@@ -54,6 +59,8 @@ public static OtpVerifyResponse verifyOtp(OtpVerificationRequest otpVerification
             String mobileNumber = "91"+otpVerificationRequest.getMobileNumber();
             OTPVerificationResponse otpVerificationResponse = otpAuth.verifyOTP(otpVerificationRequest.getOrderId(), otpVerificationRequest.getOtp(),
                     mobileNumber, "neeraj.wibmo1062@gmail.com");
+
+        logger.info("Verify OTP Response: {}", objectMapper.writeValueAsString(otpVerificationResponse));
 
 
 //    if(otpVerificationResponse.getIsOTPVerified()){
