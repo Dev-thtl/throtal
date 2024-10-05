@@ -1,8 +1,8 @@
 <configuration>
     <!-- Define properties for log directory and file name -->
-    <!--<property name="LOG_DIR" value="logs" />-->
+    <property name="LOG_DIR" value="logs" />
     <property name="LOG_FILE" value="application" />
-    <property name="LOG_DIR" value="D:/home/logfiles" />
+    <!--<property name="LOG_DIR" value="D:/home/logfiles" />-->
 
     <!-- Console Appender to display logs in the console -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
