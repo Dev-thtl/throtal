@@ -1,10 +1,13 @@
 package com.throtl.user.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.user.model.*;
 import com.throtl.user.service.CustomerService;
 import com.throtl.user.util.CommonUtil;
 import com.throtl.validator.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/th/customer")
 public class CustomerController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     CommonUtil commonUtil;
 
@@ -34,6 +39,9 @@ public class CustomerController {
     try {
 //        logger.info("Request body for /api/th/customer/validateRegisteredPhoneNumber" + "---"
 //                + mapper.writeValueAsString(unregNumber));
+
+
+        logger.info("ValidateRegisteredPhoneNumber Request: {}", objectMapper.writeValueAsString(verifyRegisteredUserRequest));
         validator.validRegisteredPhoneNumber(verifyRegisteredUserRequest,result );
 //        if(result.hasErrors())
 //        {
@@ -59,6 +67,7 @@ public class CustomerController {
 
 
         try{
+            logger.info("verify OTP Request: {}", objectMapper.writeValueAsString(otpVerificationRequest) );
 
             return customerService.verifyOtp(otpVerificationRequest,true);
 

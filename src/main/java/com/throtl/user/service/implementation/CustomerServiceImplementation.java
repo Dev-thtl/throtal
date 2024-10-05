@@ -1,5 +1,6 @@
 package com.throtl.user.service.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.otp.OTPUtil;
 import com.throtl.user.entity.MembershipPurchaseTxnData;
@@ -39,10 +40,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service(value ="customerService")
 public class CustomerServiceImplementation implements CustomerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImplementation.class);
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     UserProfileRepository userProfileRepository;
 
@@ -75,6 +80,8 @@ public class CustomerServiceImplementation implements CustomerService {
             verifyRegisteredUserResponse = new VerifyRegisteredUserResponse();
             String mobileNo = StringUtils.right(verifyRegisteredUserRequest.getMobileNumber(), 10);
             UserProfile userProfile=userProfileRepository.getUserProfileByPhoneNumber(mobileNo);
+            logger.info("User Profile: {}", userProfile.toString());
+
             Boolean flag = true;
             if(null!=userProfile) {
 //                verifyRegisteredUserResponse.setRegisteredUser(true);
@@ -88,11 +95,13 @@ public class CustomerServiceImplementation implements CustomerService {
             SendOtpDetails sendOtpDetails = new SendOtpDetails();
             sendOtpDetails.setMobileNumber(verifyRegisteredUserRequest.getMobileNumber());
             String otpMobileNumber = verifyRegisteredUserRequest.getCountryCode()+ verifyRegisteredUserRequest.getMobileNumber();
+            logger.info("Send OTP Mobile Number: {}", otpMobileNumber);
+
             sendOtpDetails =  OTPUtil.sendOtp(otpMobileNumber, sendOtpDetails);
 //            logger.info("Number----"+unregNumber.getPhoneNumber());
 //            applogger.info("Response body for /V3/validate/phoneNumber" + "---"
 //                    + mapper.writeValueAsString(unregNumber));
-
+            logger.info("OTP Details : ", sendOtpDetails.toString());
             verifyRegisteredUserResponse.setSendOtpDetails(sendOtpDetails);
 
 
@@ -119,6 +128,7 @@ public class CustomerServiceImplementation implements CustomerService {
         OtpVerifyResponse otpVerifyResponse;
        try {
            otpVerifyResponse =  OTPUtil.verifyOtp(otpVerificationRequest);
+           logger.info("OTP Validation Response : ", objectMapper.writeValueAsString(otpVerifyResponse));
            String mobileNo = StringUtils.right(otpVerificationRequest.getMobileNumber(), 10);
 
            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
