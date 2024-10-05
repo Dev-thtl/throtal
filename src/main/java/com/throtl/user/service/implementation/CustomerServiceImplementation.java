@@ -80,7 +80,7 @@ public class CustomerServiceImplementation implements CustomerService {
             verifyRegisteredUserResponse = new VerifyRegisteredUserResponse();
             String mobileNo = StringUtils.right(verifyRegisteredUserRequest.getMobileNumber(), 10);
             UserProfile userProfile=userProfileRepository.getUserProfileByPhoneNumber(mobileNo);
-            logger.info("User Profile: {}", userProfile.toString());
+          //  logger.info("User Profile: {}", userProfile.toString());
 
             Boolean flag = true;
             if(null!=userProfile) {
