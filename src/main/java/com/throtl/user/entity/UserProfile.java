@@ -55,6 +55,50 @@ public class UserProfile {
     @Column(name = "MOBILE_NUMBER")
     private String mobileNumber;
 
+    @Column(name = "VEHICLE_REG_NUMBER")
+    private String vehicleRegNumber;
+
+    @Column(name = "VEHICLE_NUMBER")
+    private String vehicleNumber;
+
+    @Column(name = "VEHICLE_MODEL")
+    private String vehicleModel;
+
+    @Column(name = "RSA_EMAIL")
+    private String rsaEmail;
+
+    public String getVehicleRegNumber() {
+        return vehicleRegNumber;
+    }
+
+    public void setVehicleRegNumber(String vehicleRegNumber) {
+        this.vehicleRegNumber = vehicleRegNumber;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
+
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
+    }
+
+    public String getRsaEmail() {
+        return rsaEmail;
+    }
+
+    public void setRsaEmail(String rsaEmail) {
+        this.rsaEmail = rsaEmail;
+    }
+
     public Long getUserId() {
         return userId;
     }

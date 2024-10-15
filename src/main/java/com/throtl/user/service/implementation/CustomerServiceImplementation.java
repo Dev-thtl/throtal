@@ -80,7 +80,7 @@ public class CustomerServiceImplementation implements CustomerService {
             verifyRegisteredUserResponse = new VerifyRegisteredUserResponse();
             String mobileNo = StringUtils.right(verifyRegisteredUserRequest.getMobileNumber(), 10);
             UserProfile userProfile=userProfileRepository.getUserProfileByPhoneNumber(mobileNo);
-          //  logger.info("User Profile: {}", userProfile.toString());
+           // logger.info("User Profile: {}", userProfile.toString());
 
             Boolean flag = true;
             if(null!=userProfile) {
@@ -232,6 +232,10 @@ public class CustomerServiceImplementation implements CustomerService {
                 userProfile.setLastName(userRegistrationRequest.getLastName());
                 userProfile.setMobileNumber(userRegistrationRequest.getMobileNumber());
                 userProfile.setEmailId(userRegistrationRequest.getEmail());
+                userProfile.setVehicleRegNumber(userRegistrationRequest.getRsaDetails().getVehicleRegistrationNumber());
+                userProfile.setVehicleNumber(userRegistrationRequest.getRsaDetails().getVehicleNumber());
+                userProfile.setVehicleModel(userRegistrationRequest.getRsaDetails().getVehicleModel());
+                userProfile.setRsaEmail(userRegistrationRequest.getRsaDetails().getRsaEmail());
 
                 userProfileRepository.save(userProfile);
 
@@ -486,6 +490,13 @@ public class CustomerServiceImplementation implements CustomerService {
             profileDetailsResponse.setCountry_code(userProfile.getCountryCode());
             profileDetailsResponse.setMobile_number(userProfile.getMobileNumber());
 
+            RSADetails rsaDetails = new RSADetails();
+            rsaDetails.setVehicleRegistrationNumber(userProfile.getVehicleRegNumber());
+            rsaDetails.setVehicleNumber(userProfile.getVehicleNumber());
+            rsaDetails.setVehicleModel(userProfile.getVehicleModel());
+            rsaDetails.setRsaEmail(userProfile.getRsaEmail());
+
+            profileDetailsResponse.setRsaDetails(rsaDetails);
             responseUtil.setCode(200);
             responseUtil.setMsg("Success");
             responseUtil.setDate(profileDetailsResponse);
