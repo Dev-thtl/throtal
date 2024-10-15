@@ -14,6 +14,16 @@ public class ProfileDetailsResponse {
     private String country_code;
     private String mobile_number;
 
+    private RSADetails rsaDetails;
+
+    public RSADetails getRsaDetails() {
+        return rsaDetails;
+    }
+
+    public void setRsaDetails(RSADetails rsaDetails) {
+        this.rsaDetails = rsaDetails;
+    }
+
     public String getUser_id() {
         return user_id;
     }
