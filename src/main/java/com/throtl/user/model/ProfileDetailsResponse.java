@@ -16,6 +16,16 @@ public class ProfileDetailsResponse {
 
     private RSADetails rsaDetails;
 
+    private UserAddress userAddress;
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
     public RSADetails getRsaDetails() {
         return rsaDetails;
     }

@@ -9,6 +9,16 @@ public class UserRegistrationRequest {
 
     private RSADetails rsaDetails;
 
+    private UserAddress userAddress;
+
+    public UserAddress getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(UserAddress userAddress) {
+        this.userAddress = userAddress;
+    }
+
     public String getFirstName() {
         return firstName;
     }
