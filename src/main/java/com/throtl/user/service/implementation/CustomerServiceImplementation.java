@@ -3,17 +3,11 @@ package com.throtl.user.service.implementation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.throtl.clientModel.RSAPurchasedDataRequest;
 import com.throtl.otp.OTPUtil;
-import com.throtl.user.entity.MembershipPurchaseTxnData;
-import com.throtl.user.entity.RefreshToken;
-import com.throtl.user.entity.UserProfile;
-import com.throtl.user.entity.UserTokenDetails;
+import com.throtl.user.entity.*;
 import com.throtl.user.model.*;
 import com.throtl.user.models.User;
 import com.throtl.user.payload.response.JwtResponse;
-import com.throtl.user.repository.MembershipPurchaseTxnDataRepository;
-import com.throtl.user.repository.UserProfileRepository;
-import com.throtl.user.repository.UserRepository;
-import com.throtl.user.repository.UserTokenDetailsRepository;
+import com.throtl.user.repository.*;
 import com.throtl.user.security.jwt.JwtUtils;
 import com.throtl.user.security.services.UserDetailsImpl;
 import com.throtl.user.service.CustomerService;
@@ -70,6 +64,9 @@ public class CustomerServiceImplementation implements CustomerService {
 
     @Autowired
     MembershipPurchaseTxnDataRepository membershipPurchaseTxnDataRepository;
+
+    @Autowired
+    UserAddressRepository userAddressRepository;
 
     @Override
     public ResponseEntity<Object> validateRegisterPhoneNumberV1(VerifyRegisteredUserRequest verifyRegisteredUserRequest, Boolean isEncrypted) {
@@ -237,7 +234,18 @@ public class CustomerServiceImplementation implements CustomerService {
                 userProfile.setVehicleModel(userRegistrationRequest.getRsaDetails().getVehicleModel());
                 userProfile.setRsaEmail(userRegistrationRequest.getRsaDetails().getRsaEmail());
 
-                userProfileRepository.save(userProfile);
+                UserProfile userprofile = userProfileRepository.save(userProfile);
+                UserAddressEntity userAddress = new UserAddressEntity();
+
+                userAddress.setUserId(String.valueOf(userprofile.getUserId()));
+                userAddress.setAddress(userRegistrationRequest.getUserAddress().getAddress());
+                userAddress.setCity(userRegistrationRequest.getUserAddress().getCity());
+                userAddress.setCountry(userRegistrationRequest.getUserAddress().getCountry());
+                userAddress.setState(userRegistrationRequest.getUserAddress().getState());
+                userAddress.setPostalCode(userRegistrationRequest.getUserAddress().getPostalCode());
+                userAddress.setStatus("Active");
+
+                userAddressRepository.save(userAddress);
 
                 userRegistrationResponse.setUserRegistration("Success");
                 userRegistrationResponse.setMsg("User Registered Successfully");
@@ -497,6 +505,20 @@ public class CustomerServiceImplementation implements CustomerService {
             rsaDetails.setRsaEmail(userProfile.getRsaEmail());
 
             profileDetailsResponse.setRsaDetails(rsaDetails);
+
+            UserAddress userAddress = new UserAddress();
+            UserAddressEntity userAddressEntity =  userAddressRepository.getBuyUserID(String.valueOf(userProfile.getUserId()));
+            if(null != userAddressEntity){
+                userAddress.setAddress(userAddressEntity.getAddress());
+                userAddress.setCity(userAddressEntity.getCity());
+                userAddress.setCountry(userAddressEntity.getCountry());
+                userAddress.setState(userAddressEntity.getState());
+                userAddress.setPostalCode(userAddressEntity.getPostalCode());
+
+                profileDetailsResponse.setUserAddress(userAddress);
+            }
+
+
             responseUtil.setCode(200);
             responseUtil.setMsg("Success");
             responseUtil.setDate(profileDetailsResponse);
