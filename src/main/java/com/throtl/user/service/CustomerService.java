@@ -25,5 +25,6 @@ ResponseEntity<Object> getUserTransactionDetails(GetUserTransactionDetailsReques
 ResponseEntity<Object> getUserProfileDetails(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted);
 ResponseEntity<Object> deleteUserProfile(ProfileDetailsRequest profileDetailsRequest, Boolean isEncrypted);
 ResponseEntity<Object> getTagEzeeDoc(String userId, Boolean isEncrypted);
+ResponseEntity<Object> orderCreate(OrderCreateRequest orderCreateRequest, Boolean isEncrypted);
 
 }
