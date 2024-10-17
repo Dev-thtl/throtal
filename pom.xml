@@ -102,6 +102,11 @@
 			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-storage-blob</artifactId>
+			<version>12.15.0</version>
+		</dependency>
 
 
 		<dependency>
