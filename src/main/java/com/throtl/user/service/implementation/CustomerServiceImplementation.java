@@ -10,6 +10,7 @@ import com.throtl.user.payload.response.JwtResponse;
 import com.throtl.user.repository.*;
 import com.throtl.user.security.jwt.JwtUtils;
 import com.throtl.user.security.services.UserDetailsImpl;
+import com.throtl.user.service.AzureBlobService;
 import com.throtl.user.service.CustomerService;
 import com.throtl.user.util.CommonUtil;
 import com.throtl.user.util.ResponseUtil;
@@ -67,6 +68,9 @@ public class CustomerServiceImplementation implements CustomerService {
 
     @Autowired
     UserAddressRepository userAddressRepository;
+
+    @Autowired
+    AzureBlobService azureBlobService;
 
     @Override
     public ResponseEntity<Object> validateRegisterPhoneNumberV1(VerifyRegisteredUserRequest verifyRegisteredUserRequest, Boolean isEncrypted) {
@@ -553,5 +557,40 @@ public class CustomerServiceImplementation implements CustomerService {
         System.out.println(e);
     }
         return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<Object> getTagEzeeDoc(String userId, Boolean isEncrypted) {
+
+        ResponseUtil responseUtil = new ResponseUtil();
+        try{
+
+            UserProfile userProfile=userProfileRepository.getReferenceById(Long.valueOf(userId));
+
+            String docLink = azureBlobService.generateDownloadLink("TagEzee.jpg");
+
+            TagEzeeGetDocResponse tagEzeeGetDocResponse = new TagEzeeGetDocResponse();
+
+            tagEzeeGetDocResponse.setDoc_Id("1");
+            tagEzeeGetDocResponse.setDoc_Name("TagEzee.jpg");
+            tagEzeeGetDocResponse.setDoc_Path(docLink);
+            tagEzeeGetDocResponse.setUser_id(userId);
+
+
+            responseUtil.setCode(200);
+            responseUtil.setMsg("Success");
+            responseUtil.setDate(tagEzeeGetDocResponse);
+
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+            responseUtil.setCode(500);
+            responseUtil.setMsg("Failure");
+            responseUtil.setDate(null);
+            System.out.println(e);
+        }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
     }
 }
