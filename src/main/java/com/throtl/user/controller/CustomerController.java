@@ -281,4 +281,16 @@ public class CustomerController {
         return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PostMapping(value = "orderCreationApi", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Object> orderCreationApi(@RequestBody @Validated OrderCreateRequest orderCreateRequest,
+                                                            @RequestHeader(name = "", required = false) String deviceId,
+                                                            BindingResult result){
+        try{
+            return customerService.orderCreate(orderCreateRequest,true);
+        }catch (Exception e){
+
+        }
+        return new ResponseEntity<>(commonUtil.getInternalServerError(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -593,4 +593,45 @@ public class CustomerServiceImplementation implements CustomerService {
 
 
     }
+
+    @Override
+    public ResponseEntity<Object> orderCreate(OrderCreateRequest orderCreateRequest, Boolean isEncrypted) {
+
+        ResponseUtil responseUtil = new ResponseUtil();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+
+            // Get the current date
+            LocalDate currentDate = LocalDate.now();
+
+            // Format the current date
+            String formattedDate = currentDate.format(formatter);
+
+            String transactionId = "TAGEZY" + orderCreateRequest.getUser_id() + formattedDate + commonUtil.generateRandomString(6);
+
+            String orderId = "order_"  + commonUtil.generateRandomString(15);
+
+            String paymentKey = "rzp_test_" + commonUtil.generateRandomString(20);
+
+            OrderCreateResponse orderCreateResponse = new OrderCreateResponse();
+
+            orderCreateResponse.setUser_id(orderCreateRequest.getUser_id());
+            orderCreateResponse.setOrder_id(orderId);
+            orderCreateResponse.setPayment_key(paymentKey);
+            orderCreateResponse.setTransaction_id(transactionId);
+
+
+
+            responseUtil.setCode(200);
+            responseUtil.setDate(orderCreateResponse);
+            responseUtil.setMsg("Success");
+            return new ResponseEntity<>(responseUtil, HttpStatus.OK);
+
+        }catch (Exception e){
+            responseUtil.setCode(500);
+            responseUtil.setMsg("Failure");
+
+        }
+        return new ResponseEntity<>(responseUtil, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
