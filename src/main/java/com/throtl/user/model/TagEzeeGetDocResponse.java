@@ -6,6 +6,7 @@ public class TagEzeeGetDocResponse {
     private String doc_Name;
     private String doc_Id;
     private String doc_Path;
+    private String amount;
 
     public String getUser_id() {
         return user_id;
@@ -37,5 +38,13 @@ public class TagEzeeGetDocResponse {
 
     public void setDoc_Path(String doc_Path) {
         this.doc_Path = doc_Path;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

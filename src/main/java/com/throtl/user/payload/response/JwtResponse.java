@@ -12,32 +12,31 @@ public class JwtResponse {
   private Instant accessTokenExpiry;
   private String token;
   private Instant refreshTokenExpiry;
-  private UserProfile userProfile;
+//  private UserProfile userProfile;
 
   // No-argument constructor
   public JwtResponse() {
   }
 
   // All-argument constructor
-  public JwtResponse(String accessToken, Instant accessTokenExpiry, String token, Instant refreshTokenExpiry,
-                     UserProfile userProfile) {
+  public JwtResponse(String accessToken, Instant accessTokenExpiry, String token, Instant refreshTokenExpiry) {
     this.accessToken = accessToken;
     this.accessTokenExpiry = accessTokenExpiry;
     this.token = token;
     this.refreshTokenExpiry = refreshTokenExpiry;
-    this.userProfile = userProfile;
+//    this.userProfile = userProfile;
   }
 
   // Getters and Setters
 
 
-  public UserProfile getUserProfile() {
-    return userProfile;
-  }
-
-  public void setUserProfile(UserProfile userProfile) {
-    this.userProfile = userProfile;
-  }
+//  public UserProfile getUserProfile() {
+//    return userProfile;
+//  }
+//
+//  public void setUserProfile(UserProfile userProfile) {
+//    this.userProfile = userProfile;
+//  }
 
   public String getAccessToken() {
     return accessToken;
@@ -77,7 +76,7 @@ public class JwtResponse {
     private Instant accessTokenExpiry;
     private String token;
     private Instant refreshTokenExpiry;
-    private UserProfile userProfile;
+//    private UserProfile userProfile;
 
     public JwtResponseBuilder() {
     }
@@ -101,13 +100,13 @@ public class JwtResponse {
       this.refreshTokenExpiry = refreshTokenExpiry;
       return this;
     }
-    public JwtResponseBuilder userProfile(UserProfile userProfile) {
-      this.userProfile = userProfile;
-      return this;
-    }
+//    public JwtResponseBuilder userProfile(UserProfile userProfile) {
+//      this.userProfile = userProfile;
+//      return this;
+//    }
 
     public JwtResponse build() {
-      return new JwtResponse(accessToken, accessTokenExpiry, token, refreshTokenExpiry, userProfile);
+      return new JwtResponse(accessToken, accessTokenExpiry, token, refreshTokenExpiry);
     }
   }
 

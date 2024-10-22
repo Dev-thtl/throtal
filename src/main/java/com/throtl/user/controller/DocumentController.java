@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping("/api/th/documents")
+@RequestMapping("/api/th/banner")
 public class DocumentController {
 
 
@@ -36,11 +36,11 @@ public class DocumentController {
     }
 
     // Endpoint to generate download link for the document
-    @GetMapping("/download-link/{userId}")
-    public ResponseEntity<Object> getDownloadLink(@PathVariable String userId) {
+    @GetMapping("/download-link")
+    public ResponseEntity<Object> getDownloadLink() {
 
         try{
-            return customerService.getTagEzeeDoc(userId,true);
+            return customerService.getTagEzeeDoc(true);
         }catch (Exception e){
 
         }
