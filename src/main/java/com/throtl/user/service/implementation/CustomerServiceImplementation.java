@@ -142,7 +142,7 @@ public class CustomerServiceImplementation implements CustomerService {
 
                if(null!=userProfile) {
 //               otpVerifyResponse.setRegisteredUser(true);
-                   otpVerifyResponse.setUserProfile(userProfile);
+//                   otpVerifyResponse.setUserProfile(userProfile);
                    otpVerifyResponse.setMsg("Registered User");
                }else{
                    otpVerifyResponse.setMsg("User Not Registered");
@@ -560,12 +560,12 @@ public class CustomerServiceImplementation implements CustomerService {
     }
 
     @Override
-    public ResponseEntity<Object> getTagEzeeDoc(String userId, Boolean isEncrypted) {
+    public ResponseEntity<Object> getTagEzeeDoc(Boolean isEncrypted) {
 
         ResponseUtil responseUtil = new ResponseUtil();
         try{
 
-            UserProfile userProfile=userProfileRepository.getReferenceById(Long.valueOf(userId));
+//            UserProfile userProfile=userProfileRepository.getReferenceById(Long.valueOf(userId));
 
             String docLink = azureBlobService.generateDownloadLink("TagEzee.jpg");
 
@@ -574,7 +574,8 @@ public class CustomerServiceImplementation implements CustomerService {
             tagEzeeGetDocResponse.setDoc_Id("1");
             tagEzeeGetDocResponse.setDoc_Name("TagEzee.jpg");
             tagEzeeGetDocResponse.setDoc_Path(docLink);
-            tagEzeeGetDocResponse.setUser_id(userId);
+//            tagEzeeGetDocResponse.setUser_id(userId);
+            tagEzeeGetDocResponse.setAmount("499");
 
 
             responseUtil.setCode(200);
@@ -617,8 +618,6 @@ public class CustomerServiceImplementation implements CustomerService {
 
             orderCreateResponse.setUser_id(orderCreateRequest.getUser_id());
             orderCreateResponse.setOrder_id(orderId);
-            orderCreateResponse.setPayment_key(paymentKey);
-            orderCreateResponse.setTransaction_id(transactionId);
 
 
 

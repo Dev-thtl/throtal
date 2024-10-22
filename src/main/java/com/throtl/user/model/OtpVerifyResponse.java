@@ -12,7 +12,7 @@ public class OtpVerifyResponse {
 
 //    private boolean registeredUser;
 
-    private UserProfile userProfile;
+//    private UserProfile userProfile;
 
     private JwtResponse jwtResponse;
 
@@ -57,11 +57,11 @@ public class OtpVerifyResponse {
 //        this.registeredUser = registeredUser;
 //    }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
+//    public UserProfile getUserProfile() {
+//        return userProfile;
+//    }
+//
+//    public void setUserProfile(UserProfile userProfile) {
+//        this.userProfile = userProfile;
+//    }
 }

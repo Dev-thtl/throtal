@@ -114,7 +114,7 @@ try{
               .accessTokenExpiry(new Date().toInstant())
               .token(refreshToken.getToken())
               .refreshTokenExpiry(refreshToken.getExpiryDate())
-              .userProfile(userProfile)
+//              .userProfile(userProfile)
               .build());
 
     }
@@ -149,7 +149,7 @@ try{
               .accessTokenExpiry(new Date().toInstant())
               .token(refreshToken.getToken())
               .refreshTokenExpiry(refreshToken.getExpiryDate())
-              .userProfile(userProfile)
+//              .userProfile(userProfile)
               .build());
 
     }
@@ -235,7 +235,7 @@ try{
               .token(userTokenDetails.getRefreshToken())
 //              .refreshTokenExpiry(Instant.parse(userTokenDetails.getRefreshTokenExpiry()))
               .refreshTokenExpiry(new Date().toInstant())
-              .userProfile(userProfile)
+//              .userProfile(userProfile)
               .build());
 
     }
@@ -274,7 +274,7 @@ try{
               .accessTokenExpiry(new Date().toInstant())
               .token(refreshToken.getToken())
               .refreshTokenExpiry(refreshToken.getExpiryDate())
-              .userProfile(userProfile)
+//              .userProfile(userProfile)
               .build());
 
     }
