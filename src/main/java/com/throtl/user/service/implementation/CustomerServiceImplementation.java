@@ -8,6 +8,8 @@ import com.throtl.user.model.*;
 import com.throtl.user.models.User;
 import com.throtl.user.payload.response.JwtResponse;
 import com.throtl.user.repository.*;
+import com.throtl.user.rsaModel.Policy;
+import com.throtl.user.rsaModel.Response;
 import com.throtl.user.security.jwt.JwtUtils;
 import com.throtl.user.security.services.UserDetailsImpl;
 import com.throtl.user.service.AzureBlobService;
@@ -31,10 +33,8 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -502,13 +502,30 @@ public class CustomerServiceImplementation implements CustomerService {
             profileDetailsResponse.setCountry_code(userProfile.getCountryCode());
             profileDetailsResponse.setMobile_number(userProfile.getMobileNumber());
 
-            RSADetails rsaDetails = new RSADetails();
-            rsaDetails.setVehicleRegistrationNumber(userProfile.getVehicleRegNumber());
-            rsaDetails.setVehicleNumber(userProfile.getVehicleNumber());
-            rsaDetails.setVehicleModel(userProfile.getVehicleModel());
-            rsaDetails.setRsaEmail(userProfile.getRsaEmail());
+            List<Policy> rsaDetailsList = new LinkedList<>();
 
-            profileDetailsResponse.setRsaDetails(rsaDetails);
+            if(StringUtils.isNotBlank(userProfile.getVehicleRegNumber()) && StringUtils.isNotBlank(userProfile.getVehicleNumber())
+            && StringUtils.isNotBlank(userProfile.getVehicleModel())) {
+                Policy rsaDetails = new Policy();
+
+//                rsaDetails.set(userProfile.getVehicleRegNumber());
+//                rsaDetails.setVehicleRegistrationNumber(userProfile.getVehicleRegNumber());
+                rsaDetails.setVehicle_no(userProfile.getVehicleNumber());
+                rsaDetails.setVehicle_model_name(userProfile.getVehicleModel());
+//                rsaDetails.setRsaEmail(userProfile.getRsaEmail());
+                rsaDetailsList.add(rsaDetails);
+            }
+
+            JSONObject jsonObject = RestUtil.rsaClientCall("get-user-details", profileDetailsRequest.getMobile_number());
+            ObjectMapper objectMapper = new ObjectMapper();
+            Response response = objectMapper.readValue(jsonObject.toString(), Response.class);
+
+            if(null != response.getData().getPolicy_list()){
+
+                rsaDetailsList.addAll(response.getData().getPolicy_list());
+            }
+
+            profileDetailsResponse.setUserVehicles(rsaDetailsList);
 
             UserAddress userAddress = new UserAddress();
             UserAddressEntity userAddressEntity =  userAddressRepository.getBuyUserID(String.valueOf(userProfile.getUserId()));

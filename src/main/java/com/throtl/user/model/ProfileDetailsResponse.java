@@ -1,5 +1,9 @@
 package com.throtl.user.model;
 
+import com.throtl.user.rsaModel.Policy;
+
+import java.util.List;
+
 public class ProfileDetailsResponse {
 
     private String user_id;
@@ -14,7 +18,7 @@ public class ProfileDetailsResponse {
     private String country_code;
     private String mobile_number;
 
-    private RSADetails rsaDetails;
+    private List<Policy> userVehicles;
 
     private UserAddress userAddress;
 
@@ -26,12 +30,13 @@ public class ProfileDetailsResponse {
         this.userAddress = userAddress;
     }
 
-    public RSADetails getRsaDetails() {
-        return rsaDetails;
+
+    public List<Policy> getUserVehicles() {
+        return userVehicles;
     }
 
-    public void setRsaDetails(RSADetails rsaDetails) {
-        this.rsaDetails = rsaDetails;
+    public void setUserVehicles(List<Policy> userVehicles) {
+        this.userVehicles = userVehicles;
     }
 
     public String getUser_id() {
